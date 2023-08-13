@@ -13,7 +13,7 @@ screen.listen()
 
 player_left = Paddle(50)
 player_right = Paddle(750)
-ball = Ball()
+ball_obj = Ball()
 screen.onkey(player_left.move_up, "w")
 screen.onkey(player_left.move_down, "s")
 screen.onkey(player_right.move_up, "Up")
@@ -24,7 +24,10 @@ game_is_on = True
 
 while game_is_on:
     screen.update()
-    ball.move()
-    ball.collision()
+    ball_obj.move()
+    ball_obj.collision_ceiling_floor()
+    ball_obj.collision_paddle(player_left)
+    ball_obj.collision_paddle(player_right)
+
 
 screen.exitonclick()

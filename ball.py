@@ -6,18 +6,33 @@ class Ball(Turtle):
 
     def __init__(self):
         super().__init__()
-        self.ball = Turtle(visible=False)
-        self.ball.shape("circle")
-        self.ball.color("white")
-        self.ball.penup()
-        self.ball.goto(400, 300)
-        self.ball.showturtle()
-        self.ball.setheading(40)
+        self.shape("circle")
+        self.color("white")
+        self.penup()
+        self.goto(400, 300)
+        self.x_move = 2
+        self.y_move = 2
+        self.setheading(40)
 
     def move(self):
-        self.ball.forward(5)
+        new_x = self.xcor() + self.x_move
+        new_y = self.ycor() + self.y_move
+        if new_x > 795 or new_x < 5:
+            return
+        self.goto(new_x, new_y)
         sleep(0.01)
 
-    def collision(self):
-        if self.ball.ycor() > 595 or self.ball.ycor() < 5:
-            self.ball.setheading(360 - self.ball.heading())
+    def bounce_y(self):
+        self.y_move *= -1
+
+    def bounce_x(self):
+        self.x_move *= -1
+
+    def collision_ceiling_floor(self):
+        if self.ycor() > 595 or self.ycor() < 5:
+            self.bounce_y()
+
+    def collision_paddle(self, paddle):
+        if self.xcor() > 740 and self.distance(paddle) < 50\
+                or self.xcor() < 60 and self.distance(paddle) < 50:
+            self.bounce_x()
